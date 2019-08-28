@@ -8,35 +8,35 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class ProductService {
+class ProductService {
     private final StoreApi storeApi;
     private static final Logger log = Logger.getLogger(ProductService.class.getName());
 
-    public ProductService(StoreApi storeApi) {
+    ProductService(StoreApi storeApi) {
         this.storeApi = storeApi;
     }
 
-    public void printProductOf(Long id) {
+    void printProductOfId(Long id) {
         Optional<Product> optionalProduct = findInStoreApi(id);
         if (optionalProduct.isPresent()) {
             print(optionalProduct.get());
         } else {
-            throw new RuntimeException("Produto não existe");
+            throw new RuntimeException("Product not found");
         }
     }
 
-    private Optional<Product> findInStoreApi(Long id) {
+    Optional<Product> findInStoreApi(Long id) {
         final Response<Product> response;
         try {
             response = this.storeApi.getDetail(id).execute();
             if (response.isSuccessful()) {
                 return Optional.ofNullable(response.body());
             } else {
-                log.log(Level.WARNING, "O corpo da resposta veio vazia ao chamar products com " + id);
+                log.log(Level.WARNING, "The response body is empty with id " + id);
                 return Optional.empty();
             }
         } catch (IOException e) {
-            log.log(Level.WARNING, "Erro com id " + id, e);
+            log.log(Level.WARNING, "Error with id " + id, e);
             return Optional.empty();
         }
 
