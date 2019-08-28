@@ -3,7 +3,6 @@ package br.com.vitormarcal.retrofit;
 
 import okhttp3.*;
 
-import java.io.IOException;
 import java.util.List;
 
 public class FakeInterceptor implements Interceptor {
@@ -11,8 +10,8 @@ public class FakeInterceptor implements Interceptor {
 
 
     @Override
-    public Response intercept(Chain chain) throws IOException {
-        Response response = null;
+    public Response intercept(Chain chain) {
+        Response response;
         String responseString = "{}";
         final List<String> paths = chain.request().url().pathSegments();
 
